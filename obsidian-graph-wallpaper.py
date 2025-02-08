@@ -15,7 +15,7 @@ from watchdog.events import FileSystemEventHandler
 # CONFIGURATIONS
 # ----------------------------
 VAULT_PATH = r"C:\Users\Tomas\Main Obsidian Vault"
-OUTPUT_IMAGE = r"C:\Users\Tomas\OneDrive\Desktop\Projects\obsidian-graph-wallpaper\wallpaper-pics\obsidian_graph.png"
+OUTPUT_IMAGE = r"C:\Users\Tomas\OneDrive\Pictures\Wallpaper Pic\obsidian_graph.png"
 
 def set_wallpaper_windows(image_path):
     """
