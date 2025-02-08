@@ -11,9 +11,7 @@ import networkx as nx
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
-# ----------------------------
-# CONFIGURATIONS
-# ----------------------------
+# Change both paths: first is the location of your vault, second is the location of where you want the output png
 VAULT_PATH = r"C:\Users\Tomas\Main Obsidian Vault"
 OUTPUT_IMAGE = r"C:\Users\Tomas\OneDrive\Pictures\Wallpaper Pic\obsidian_graph.png"
 
