@@ -101,7 +101,7 @@ def draw_graph_and_save(G, output_path):
     """
     plt.clf()
     fig = plt.figure(figsize=(12, 12))
-    fig.patch.set_facecolor("white")
+    fig.patch.set_facecolor("#F0F0F0")
 
     # Give leaf edges a higher weight
     for u, v in G.edges():
@@ -185,7 +185,7 @@ def draw_graph_and_save(G, output_path):
     ax.set_aspect("equal", "box")
 
     plt.tight_layout()
-    plt.savefig(output_path, dpi=150, facecolor=fig.get_facecolor())
+    plt.savefig(output_path, dpi=400, facecolor=fig.get_facecolor())
     plt.close()
 
 def update_wallpaper():
@@ -196,7 +196,7 @@ def update_wallpaper():
 
 class VaultChangeHandler(FileSystemEventHandler):
     def on_any_event(self, event):
-        print(f"[DEBUG] Change detected: {event.event_type} - {event.src_path}")
+        print(f"[UPDATE] Change detected: {event.event_type} - {event.src_path}")
         update_wallpaper()
 
 if __name__ == "__main__":
