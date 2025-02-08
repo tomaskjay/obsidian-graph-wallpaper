@@ -1,1 +1,1 @@
-![Example](/2-8-25 graph.png)
+![Example](\2-8-25 graph.png)
