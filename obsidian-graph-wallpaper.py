@@ -91,6 +91,18 @@ def enforce_min_distance(pos, min_dist=0.05, iterations=10):
         if not moved:
             break
 
+def print_self_loops(G):
+    """
+    Print the names of nodes that are linked to themselves.
+    """
+    self_loops = [node for node in G.nodes if G.has_edge(node, node)]
+    if self_loops:
+        print("[INFO] Nodes with self-loops:")
+        for node in self_loops:
+            print(f" - {node}")
+    else:
+        print("[INFO] No self-loops found in the graph.")
+
 def draw_graph_and_save(G, output_path):
     """
     Draw the graph:
@@ -100,8 +112,13 @@ def draw_graph_and_save(G, output_path):
       - Straight line edges (no connectionstyle)
     """
     plt.clf()
-    fig = plt.figure(figsize=(12, 12))
-    fig.patch.set_facecolor("#F0F0F0")
+    
+    # Set the figure size to match the aspect ratio of your wallpaper
+    wallpaper_width = 1920
+    wallpaper_height = 1080
+    aspect_ratio = wallpaper_width / wallpaper_height
+    fig = plt.figure(figsize=(12 * aspect_ratio, 12))
+    fig.patch.set_facecolor("#1A1A40")
 
     # Give leaf edges a higher weight
     for u, v in G.edges():
@@ -160,23 +177,50 @@ def draw_graph_and_save(G, output_path):
         G,
         pos,
         alpha=0.4,
-        edge_color="#D3D3D3",
+        edge_color="#444B5D",
         width=0.75
     )
 
-    # Draw nodes
+    # (A) Define the special note filenames exactly as they appear on disk:
+    #     If your actual file names are "🧠 Personal.md", etc., match those here.
+    special_note_names = {
+        "🧠 Personal.md",
+        "📚 School.md",
+        "💻 Work.md",
+        "😶‍🌫️ Misc.md"
+    }
+    
+    # (B) Filter out the actual special nodes present in the graph
+    special_md_nodes = [n for n in md_nodes if n in special_note_names]
+
+    # (C) Draw the special nodes in #b6616b
     nx.draw_networkx_nodes(
-        G, pos,
-        nodelist=md_nodes,
-        node_size=[node_sizes[n] for n in md_nodes],
-        node_color="#6D7A8D",
+        G,
+        pos,
+        nodelist=special_md_nodes,
+        node_size=[node_sizes[n] for n in special_md_nodes],
+        node_color="#00FFFF",
         alpha=0.9
     )
+
+    # (D) Draw remaining md nodes in the original color
+    regular_md_nodes = list(set(md_nodes) - set(special_md_nodes))
     nx.draw_networkx_nodes(
-        G, pos,
+        G,
+        pos,
+        nodelist=regular_md_nodes,
+        node_size=[node_sizes[n] for n in regular_md_nodes],
+        node_color="#FF00FF",
+        alpha=0.9
+    )
+
+    # (E) Draw attachments (unchanged)
+    nx.draw_networkx_nodes(
+        G,
+        pos,
         nodelist=attachment_nodes,
         node_size=[node_sizes[n] for n in attachment_nodes],
-        node_color="#F5C277",
+        node_color="#007FFF",
         alpha=0.9
     )
 
@@ -190,6 +234,7 @@ def draw_graph_and_save(G, output_path):
 
 def update_wallpaper():
     G = build_vault_graph(VAULT_PATH)
+    print_self_loops(G)
     draw_graph_and_save(G, OUTPUT_IMAGE)
     set_wallpaper_windows(OUTPUT_IMAGE)
     print("[INFO] Wallpaper updated.")
